@@ -1,0 +1,24 @@
+@keyframes moving-logo {
+  from {
+    transform: scale(0.2);
+  }
+  to {
+    transform: scale(1.5) rotateX("angle");
+  }
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 40vh;
+  left: 35vw;
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px 40px 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  display: none;
+  animation: moving-logo 1s;
+}

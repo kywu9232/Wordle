@@ -16,6 +16,31 @@ main {
   align-items: center;
   gap: 10px;
   font-weight: bold;
+  margin-bottom: 30px;
+}
+
+@keyframes gameend {
+  from {
+    transform: scale(0.2);
+  }
+  to {
+    transform: scale(1.5) rotateX("angle");
+  }
+}
+.gameover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 40vh;
+  left: 35vw;
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px 40px 20px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  display: none;
+  animation: gameend 1s;
 }
 
 .board-row {

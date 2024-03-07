@@ -3,21 +3,25 @@ const answer = "APPLE";
 let index = 0;
 let attempts = 0;
 let timer;
+let 맞은_갯수 = 0;
 
 function appStart() {
   const displayGameover = () => {
     const div = document.createElement("div");
+    div.className = "gameover";
+
+    div.style.display = "block";
     div.innerText = "게임이 종료됐습니다.";
-    div.style =
-      "display:flex; justify-content:center; align-items:center; position:absolute; top:40vh; left:35vw; background-color:white";
 
     document.body.appendChild(div);
   };
+
   const gameover = () => {
     window.removeEventListener("keydown", handleKeyDown);
     displayGameover();
     clearInterval(timer);
   };
+
   const nextLine = () => {
     if (attempts === 5) return gameover();
     attempts++;
@@ -34,24 +38,33 @@ function appStart() {
   };
 
   const handleEnterKey = () => {
-    let 맞은_갯수 = 0;
     for (let i = 0; i < 5; i++) {
       const block = document.querySelector(
         `.board-block[data-index='${attempts}${i}']`
       );
+
       const 입력한_글자 = block.innerText;
       const 정답_글자 = answer[i];
+      const keyboard = document.querySelector(
+        `.keyboard-key[value='${입력한_글자}']`
+      );
       if (입력한_글자 === 정답_글자) {
         맞은_갯수 += 1;
         block.style.background = "#6AAA64";
-      } else if (answer.includes(입력한_글자))
+        keyboard.style.background = "#6AAA64";
+      } else if (answer.includes(입력한_글자)) {
         block.style.background = "#C9B458";
-      else block.style.background = "#787C7E";
+        keyboard.style.background = "#C9B458";
+      } else {
+        block.style.background = "#787C7E";
+        keyboard.style.background = "#787C7E";
+      }
       block.style.color = "white";
     }
     if (맞은_갯수 === 5) gameover();
     else nextLine();
   };
+
   const handleKeyDown = (event) => {
     const key = event.key.toUpperCase();
     const keyCode = event.keyCode;
@@ -67,6 +80,20 @@ function appStart() {
       index++;
     }
   };
+  const keyboardClick = document.querySelectorAll(".keyboard-key");
+
+  for (var i = 0; i < keyboardClick.length; i++) {
+    keyboardClick[i].addEventListener("click", click);
+  }
+
+  function click(e) {
+    console.log(this.value);
+    const thisBlock = document.querySelector(
+      `.board-block[data-index='${attempts}${index}']`
+    );
+    thisBlock.innerText = this.value;
+    index++;
+  }
 
   const startTimer = () => {
     const 시작_시간 = new Date();
@@ -81,6 +108,7 @@ function appStart() {
     }
     timer = setInterval(setTime, 1000);
   };
+
   startTimer();
   window.addEventListener("keydown", handleKeyDown);
 }
